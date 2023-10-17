@@ -1,0 +1,16 @@
+Paso de construcción (build):
+
+Se ejecuta en una máquina Ubuntu.
+Se inicia descargando el código del repositorio.
+Luego, configura el entorno .NET Core, en este caso, la versión 7.0.x.
+Realiza la restauración de las dependencias del proyecto con el comando dotnet restore.
+Luego, compila la aplicación con el comando dotnet build en modo Release.
+Después, publica la aplicación con el comando dotnet publish en la carpeta "./publish".
+Finalmente, sube los artefactos generados (archivos de la aplicación) al pipeline para su uso posterior.
+
+Paso de implementación (deploy):
+
+Este paso se ejecuta después del paso de construcción y necesita que se haya completado con éxito.
+Descarga los artefactos de la aplicación generados en el paso anterior.
+Muestra el contenido de la carpeta actual usando ls.
+Finalmente, imprime un mensaje de "Deploy" en la consola. Este es un marcador de posición, y normalmente ahi se realizaría la implementación en un servidor o en el entorno de producción.
