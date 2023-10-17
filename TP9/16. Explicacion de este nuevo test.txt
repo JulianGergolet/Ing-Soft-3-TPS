@@ -1,0 +1,28 @@
+Este código se centra en la realización de pruebas unitarias para la clase `ApiService` mediante el uso de un servicio simulado (mock) en lugar de realizar solicitudes HTTP reales. 
+
+1. **Configuración de la Prueba**:
+   - En la sección "Arrange," se configura la prueba.
+   - Se crea una instancia de `ServiceCollection` para configurar servicios.
+   - Se crea un `mockResponse` que simula una respuesta HTTP exitosa con datos ficticios.
+   - Se crea un `mockHttpMessageHandler` utilizando Moq, que es un mock para el manejo de mensajes HTTP. Este mock se configurará para simular la respuesta HTTP que se espera.
+   - La instancia de `IApiService` se registra como un servicio transient, y se inyecta un `HttpClient` con el `mockHttpMessageHandler`.
+
+2. **Configuración del Mock HTTP Message Handler**:
+   - La línea `mockHttpMessageHandler.Protected()` permite configurar un método protegido en el `HttpMessageHandler`.
+   - `Setup<Task<HttpResponseMessage>>("SendAsync", ...)` configura el método `SendAsync` del `HttpMessageHandler`. Este método se usa internamente por el `HttpClient` para enviar solicitudes HTTP.
+   - Se configura para que devuelva el `mockResponse` cuando se llame a `SendAsync`.
+
+3. **Creación del Proveedor de Servicios y Obtención del Servicio Mockeado**:
+   - Se construye el proveedor de servicios a partir de la colección de servicios configurados.
+   - Se obtiene una instancia de `IApiService` del proveedor de servicios. Esta instancia utiliza el `HttpClient` mockeado para realizar solicitudes HTTP.
+
+4. **Realización de la Prueba**:
+   - En la sección "Act," se llama al método `GetMyModelsAsync` del servicio. Esta llamada al método involucra el `HttpClient` mockeado, que responderá con el `mockResponse` configurado.
+
+5. **Aserciones**:
+   - En la sección "Assert," se realizan aserciones para verificar que el resultado obtenido (`result`) es el esperado.
+   - Se verifica que `result` no sea nulo (`Assert.IsNotNull(result)`).
+   - Se verifica que el número de elementos en `result` sea igual a 1 (`Assert.AreEqual(1, result.Count())`).
+   - Se verifica que el título del primer elemento en `result` sea "Test Title" (`Assert.AreEqual("Test Title", result.FirstOrDefault().Title)`).
+
+El mecanismo central es la configuración del `mockHttpMessageHandler` para que responda con una respuesta simulada cuando el `HttpClient` del `ApiService` haga solicitudes HTTP.

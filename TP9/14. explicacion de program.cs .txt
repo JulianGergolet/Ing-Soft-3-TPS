@@ -1,0 +1,15 @@
+El código comienza configurando una colección de servicios utilizando la clase ServiceCollection. Esto se utiliza para registrar e inyectar dependencias en la aplicación.
+
+1. Registro del Cliente HTTP: AddHttpClient() se utiliza para registrar un cliente HTTP en la colección de servicios.Este cliente se usará para hacer solicitudes HTTP al servicio externo.
+
+2. Registro de la Interfaz y Clase de Servicio: AddTransient<IApiService, ApiService>() se utiliza para registrar una interfaz IApiService y su implementación ApiService como servicios en el contenedor de dependencias. Esto permite que la aplicación utilice una instancia de ApiService a través de la interfaz IApiService.
+
+3. Creación del Proveedor de Servicios:BuildServiceProvider() se llama para construir el proveedor de servicios a partir de la colección de servicios configurados. Esto permitirá la inyección de dependencias en la aplicación.
+
+4. Obtención del Servicio:GetRequiredService<IApiService>() se utiliza para obtener una instancia del servicio a través de la interfaz IApiService del proveedor de servicios. Esto permitirá a la aplicación interactuar con el servicio externo a través de apiService.
+
+5. Realización de Solicitudes al Servicio Externo: La aplicación utiliza apiService para llamar a GetMyModelsAsync(), que probablemente es un método que hace una solicitud HTTP al servicio externo para recuperar datos (como modelos) y lo almacena en la variable myModels.
+
+6. Iteración y Visualización de Resultados:Se itera a través de los modelos recuperados y se imprime información sobre cada modelo en la consola.
+
+El servicio externo está encapsulado por la interfaz IApiService y su implementación ApiService. Esa seria la interface a mockear.

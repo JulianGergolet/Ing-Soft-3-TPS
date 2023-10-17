@@ -1,0 +1,11 @@
+Este test en C# está diseñado para probar un método llamado Get en el controlador WeatherForecastController. 
+
+En la sección "Arrange," se configura el escenario de prueba:
+Se crea un objeto ILogger para el controlador WeatherForecastController.
+Luego, se crea una instancia del controlador WeatherForecastController, pasando el logger como argumento.
+
+En la sección "Act," se llama al método Get del controlador para obtener un resultado.
+
+En la sección "Assert," se realizan dos comprobaciones:
+Se verifica que el resultado (result) no sea nulo (Assert.NotNull(result)), lo que significa que el método Get no devuelve un resultado vacío.
+Se verifica que el número de elementos en el resultado sea igual a 5 (Assert.AreEqual(5, result.Count())), lo que asegura que el método devuelve una lista de 5 elementos de pronósticos del tiempo.

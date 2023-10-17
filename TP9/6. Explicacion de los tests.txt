@@ -1,0 +1,23 @@
+CanBeCancelledBy_AdminCancelling_ReturnsTrue: Este test verifica si una reserva puede ser cancelada por un administrador.
+
+En la sección "Arrange," se crea un usuario (User) y se establece que es un administrador (IsAdmin=true). Luego, se crea una reserva (Reservation).
+En la sección "Act," se llama al método CanBeCancelledBy de la reserva, pasando el usuario como argumento.
+En la sección "Assert," se verifica que el resultado (result) es true utilizando la aserción Assert.That.
+
+
+
+CanBeCancelledBy_SameUserCancelling_ReturnsTrue: Este test comprueba si una reserva puede ser cancelada por el mismo usuario que la creó.
+
+En la sección "Arrange," se crea un usuario (User) y una reserva (Reservation) que fue hecha por el mismo usuario.
+En la sección "Act," se llama al método CanBeCancelledBy de la reserva, pasando el mismo usuario como argumento.
+En la sección "Assert," se verifica que el resultado (result) es true usando la aserción Assert.That.
+
+
+
+
+
+CanBeCancelledBy_AnotherUserCancelling_ReturnsFalse: Este test verifica si una reserva puede ser cancelada por un usuario diferente al que la creó.
+
+En la sección "Arrange," se crea un usuario (User) y una reserva (Reservation) que fue hecha por ese usuario.
+En la sección "Act," se crea un nuevo usuario (newUser) y se llama al método CanBeCancelledBy de la reserva, pasando el nuevo usuario como argumento.
+En la sección "Assert," se verifica que el resultado (result) es false usando la aserción Assert.That.
