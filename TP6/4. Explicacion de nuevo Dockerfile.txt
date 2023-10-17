@@ -1,0 +1,31 @@
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base: En esta línea, estamos eligiendo una imagen base oficial de .NET para ASP.NET. Esta será la base de nuestro contenedor. La etiqueta "AS base" la utiliza para nombrar esta etapa como "base".
+
+WORKDIR /app: Establecemos el directorio de trabajo dentro del contenedor en "/app". Esto será el directorio principal donde trabajaremos.
+
+EXPOSE 80: Aquí especificamos que el contenedor expondrá el puerto 80 para que las aplicaciones puedan comunicarse con el mundo exterior.
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build: Ahora seleccionamos una segunda imagen oficial de .NET, pero esta vez es la versión con SDK, que se utiliza para compilar aplicaciones. La nombramos como "build".
+
+WORKDIR /src: Cambiamos el directorio de trabajo al directorio de origen donde se encuentra nuestro código fuente.
+
+COPY ["MiProyectoWebAPI.csproj", "."]: Copiamos el archivo de proyecto "MiProyectoWebAPI.csproj" al directorio de trabajo del contenedor.
+
+RUN dotnet restore "./MiProyectoWebAPI.csproj": Ejecutamos el comando "dotnet restore" para restaurar las dependencias del proyecto.
+
+COPY . .: Copiamos todos los archivos de tu proyecto al directorio de trabajo en el contenedor.
+
+WORKDIR "/src/.": Cambiamos el directorio de trabajo de nuevo al directorio de origen.
+
+RUN dotnet build "MiProyectoWebAPI.csproj" -c Release -o /app/build: Compilamos el proyecto con el perfil "Release" y guardamos la salida en el directorio "/app/build".
+
+FROM build AS publish: Creamos una nueva etapa llamada "publish" basada en la etapa "build".
+
+RUN dotnet publish "MiProyectoWebAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false: Realizamos la publicación del proyecto en la etapa "publish" y guardamos los archivos publicados en "/app/publish".
+
+FROM base AS final: Creamos otra etapa llamada "final" basada en la etapa "base" (la primera).
+
+WORKDIR /app: Establecemos nuevamente el directorio de trabajo en "/app".
+
+COPY --from=publish /app/publish .: Copiamos los archivos publicados desde la etapa "publish" al directorio de trabajo en la etapa "final".
+
+ENTRYPOINT ["dotnet", "MiProyectoWebAPI.dll"]: Definimos el punto de entrada para el contenedor, lo que significa que cuando el contenedor se inicie, ejecutará la aplicación "MiProyectoWebAPI.dll" usando el comando "dotnet".
